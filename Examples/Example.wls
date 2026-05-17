@@ -52,23 +52,6 @@ riverRules = {
       {a___, river, empty, b___} :> {a, river, river, b}
     }
   },
-  {
-    All,
-    Infinity,
-    {
-      {
-        top___,
-        {a___, river, empty, b___},
-        {c___, empty, river, d___},
-        bottom___
-      } :> {
-        top,
-        {a, river, river, b},
-        {c, river, river, d},
-        bottom
-      }
-    }
-  },
 
   (* Place grass around the river, then fill the rest. *)
   {

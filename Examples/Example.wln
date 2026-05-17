@@ -154,23 +154,6 @@ AppendTo[rules, {
 
 AppendTo[rules, {
   All, Infinity, {
-    (* fill in gaps of the river *)
-    {
-      af___
-      {a___, (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___},
-      {c___, (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*),(*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*), d___}
-      bf___
-    } :> {
-      af
-      {a,    (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*), b   },
-      {c,    (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*), d   }
-      bf
-    }
-  }
-}];
-
-AppendTo[rules, {
-  All, Infinity, {
     (* green grass close to river *)
     {a___, (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*),(*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*), b}
   }

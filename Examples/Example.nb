@@ -18,11 +18,7 @@ b}}}]; \nAppendTo[rules, {All, Infinity, {{a___, RGBColor[1, 1, 0], b___} :> \
 {a, GrayLevel[0], b}, {a___, RGBColor[1, 0, 0], b___} :> {a, GrayLevel[0], \
 b}}}]; \nAppendTo[rules, {All, 1, {{a___, RGBColor[1/3, 1/3, 1], \
 GrayLevel[0], b___} :> {a, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], \
-b}}}]; \nAppendTo[rules, {All, Infinity, {{(af___)*{a___, RGBColor[1/3, 1/3, \
-1], GrayLevel[0], b___}, {c___, GrayLevel[0], RGBColor[1/3, 1/3, 1], \
-d___}*(bf___)} :> {af*{a, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], b}, \
-{c, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], d}*bf}}}]; \
-\nAppendTo[rules, {All, Infinity, {{a___, RGBColor[1/3, 1/3, 1], \
+b}}}]; \nAppendTo[rules, {All, Infinity, {{a___, RGBColor[1/3, 1/3, 1], \
 GrayLevel[0], b___} :> {a, RGBColor[0, 1, 0], RGBColor[0, 1, 0], b}}}]; \
 \nAppendTo[rules, {1, 13, {{a___, GrayLevel[0], b___} :> {a, RGBColor[0, 2/3, \
 0], b}}}]; \nAppendTo[rules, {1, Infinity, {{a___, RGBColor[0, 2/3, 0], \

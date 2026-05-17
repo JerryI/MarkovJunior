@@ -182,29 +182,12 @@ riverRules = {
     }
   },
 
-  (* Expand the river once and fill diagonal gaps. *)
+  (* Expand the river once  *)
   {
     All,
     1,
     {
       {a___, river, empty, b___} :> {a, river, river, b}
-    }
-  },
-  {
-    All,
-    Infinity,
-    {
-      {
-        top___,
-        {a___, river, empty, b___},
-        {c___, empty, river, d___},
-        bottom___
-      } :> {
-        top,
-        {a, river, river, b},
-        {c, river, river, d},
-        bottom
-      }
     }
   },
 
