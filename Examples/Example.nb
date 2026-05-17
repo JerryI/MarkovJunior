@@ -1,0 +1,38 @@
+Notebook[{Cell["River generator", "Title"], Cell["Here is a basic example of \
+MarkovJunior used to procedurally generate rivers.\n\nLoad the library \
+first:", "Text"], Cell["PacletDirectoryLoad[ParentDirectory[NotebookDirectory\
+[]]]; \nNeeds[\"CoffeeLiqueur`Workshop`MarkovJunior`\" -> \"m`\"]; ", 
+   "Input"], 
+  Cell["Create set of rules following the pattern\n\n```\n{\n  All | 1,  (* \
+apply rule to all found matches or 1 randomly taken *)\n  _Integer | \
+Infinity, (* max. number of steps for set of rules *)\n  {\n    a -> b,  (* \
+rule 1 *)\n    c -> d   (* rule 2 *)\n    ...\n  }\n}\n```", "Text"], 
+  Cell["Here is a set of rules to generate river, and then some grass:", 
+   "Text"], Cell["rules = {}; \nAppendTo[rules, {1, 1, {GrayLevel[0] -> \
+RGBColor[1, 1, 0]}}]; \nAppendTo[rules, {1, 1, {GrayLevel[0] -> RGBColor[1, \
+0, 0]}}]; \nAppendTo[rules, {1, Infinity, {{a___, RGBColor[1, 0, 0], \
+GrayLevel[0], b___} :> {a, RGBColor[1, 0, 0], RGBColor[1, 0, 0], b}, {a___, \
+RGBColor[1, 1, 0], GrayLevel[0], b___} :> {a, RGBColor[1, 1, 0], RGBColor[1, \
+1, 0], b}}}]; \nAppendTo[rules, {All, Infinity, {{a___, RGBColor[1, 0, 0], \
+RGBColor[1, 1, 0], b___} :> {a, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], \
+b}}}]; \nAppendTo[rules, {All, Infinity, {{a___, RGBColor[1, 1, 0], b___} :> \
+{a, GrayLevel[0], b}, {a___, RGBColor[1, 0, 0], b___} :> {a, GrayLevel[0], \
+b}}}]; \nAppendTo[rules, {All, 1, {{a___, RGBColor[1/3, 1/3, 1], \
+GrayLevel[0], b___} :> {a, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], \
+b}}}]; \nAppendTo[rules, {All, Infinity, {{(af___)*{a___, RGBColor[1/3, 1/3, \
+1], GrayLevel[0], b___}, {c___, GrayLevel[0], RGBColor[1/3, 1/3, 1], \
+d___}*(bf___)} :> {af*{a, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], b}, \
+{c, RGBColor[1/3, 1/3, 1], RGBColor[1/3, 1/3, 1], d}*bf}}}]; \
+\nAppendTo[rules, {All, Infinity, {{a___, RGBColor[1/3, 1/3, 1], \
+GrayLevel[0], b___} :> {a, RGBColor[0, 1, 0], RGBColor[0, 1, 0], b}}}]; \
+\nAppendTo[rules, {1, 13, {{a___, GrayLevel[0], b___} :> {a, RGBColor[0, 2/3, \
+0], b}}}]; \nAppendTo[rules, {1, Infinity, {{a___, RGBColor[0, 2/3, 0], \
+GrayLevel[0], b___} :> {a, RGBColor[0, 2/3, 0], RGBColor[0, 2/3, 0], b}, \
+{a___, RGBColor[0, 1, 0], GrayLevel[0], b___} :> {a, RGBColor[0, 1, 0], \
+RGBColor[0, 1, 0], b}}}]; \nstate = m`MarkovState[Table[GrayLevel[0], {20}, \
+{20}], rules]", "Input"], 
+  Cell["Now evaluate the state infinitely and watch the result live:", 
+   "Text"], Cell["DynamicModule[{state = initialState[40]}, \
+Dynamic[Refresh[If[ !mj`FinishedQ[state], state = mj`Propagate[state]]; \
+ArrayPlot[mj`GetArray[state], PixelConstrained -> 10], UpdateInterval -> \
+1/30, TrackedSymbols :> {}]]]", "Input"]}]
