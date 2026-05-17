@@ -1,10 +1,9 @@
 Notebook[{Cell["River generator", "Title"], Cell["Here is a basic example of \
 MarkovJunior used to procedurally generate rivers.\n\nLoad the library \
 first:", "Text"], Cell["PacletDirectoryLoad[ParentDirectory[NotebookDirectory\
-[]]]; \nNeeds[\"CoffeeLiqueur`Workshop`MarkovJunior`\" -> \"m`\"]; ", 
-   "Input"], 
-  Cell["Create set of rules following the pattern\n\n```\n{\n  All | 1,  (* \
-apply rule to all found matches or 1 randomly taken *)\n  _Integer | \
+[]]]; \nNeeds[\"CoffeeLiqueur`Workshop`MarkovJunior`\" -> \"mj`\"]; ", 
+   "Input"], Cell["Create set of rules following the pattern\n\n```\n{\n  All \
+| 1,  (* apply rule to all found matches or 1 randomly taken *)\n  _Integer | \
 Infinity, (* max. number of steps for set of rules *)\n  {\n    a -> b,  (* \
 rule 1 *)\n    c -> d   (* rule 2 *)\n    ...\n  }\n}\n```", "Text"], 
   Cell["Here is a set of rules to generate river, and then some grass:", 
@@ -29,10 +28,15 @@ GrayLevel[0], b___} :> {a, RGBColor[0, 1, 0], RGBColor[0, 1, 0], b}}}]; \
 0], b}}}]; \nAppendTo[rules, {1, Infinity, {{a___, RGBColor[0, 2/3, 0], \
 GrayLevel[0], b___} :> {a, RGBColor[0, 2/3, 0], RGBColor[0, 2/3, 0], b}, \
 {a___, RGBColor[0, 1, 0], GrayLevel[0], b___} :> {a, RGBColor[0, 1, 0], \
-RGBColor[0, 1, 0], b}}}]; \nstate = m`MarkovState[Table[GrayLevel[0], {20}, \
+RGBColor[0, 1, 0], b}}}]; \nstate = mj`MarkovState[Table[GrayLevel[0], {20}, \
 {20}], rules]", "Input"], 
   Cell["Now evaluate the state infinitely and watch the result live:", 
    "Text"], Cell["DynamicModule[{state = initialState[40]}, \
 Dynamic[Refresh[If[ !mj`FinishedQ[state], state = mj`Propagate[state]]; \
 ArrayPlot[mj`GetArray[state], PixelConstrained -> 10], UpdateInterval -> \
-1/30, TrackedSymbols :> {}]]]", "Input"]}]
+1/30, TrackedSymbols :> {}]]]", "Input"], 
+  Cell["To export the animation use `Image` wrapper:", "Text"], 
+  Cell["Table[ImageResize[Image[mj`GetArray[state = mj`Propagate[state]; \
+state = mj`Propagate[state]; state = mj`Propagate[state]]], {350, 350}, \
+Method -> \"NearestNeighbor\"], {250}]; \nExport[\"ex.gif\", AnimatedImage[%, \
+FrameRate -> 25]]", "Input"]}]
