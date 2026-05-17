@@ -89,7 +89,7 @@ Growth model:
 ![](./imgs/ex2.gif)
 
 ```wolfram
-state = m`MarkovState[Table[Black, {20}, {20}], {
+state = mj`MarkovState[Table[Black, {20}, {20}], {
   {1, 1, {
     Black -> Red
   }},
@@ -104,7 +104,7 @@ Self-avoiding walk:
 ![](./imgs/ex3.gif)
 
 ```wolfram
-state = m`MarkovState[Table[Black, {20}, {20}], {
+state = mj`MarkovState[Table[Black, {20}, {20}], {
   {1, 1, {
     Black -> Red
   }},
@@ -118,7 +118,7 @@ Then to run this example call `Propagate` method:
 
 ```wolfram
 state = mj`Propagate[state];
-state // mf`GetArray // ArrayPlot
+state // mj`GetArray // ArrayPlot
 ```
 
 To export it as GIF animation, one can use `Image` as a wrapper:
