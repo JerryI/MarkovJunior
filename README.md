@@ -63,6 +63,8 @@ Rules are grouped as:
 {
   1 | All,             (* apply one random match, or all matches *)
   _Integer | Infinity, (* maximum number of propagation steps for this group *)
+                       (* symmetry operations to be applied *)
+  Automatic | All | None | "Rotation" | "Mirror" | "MirrorX" | "MirrorY",    
   {rules...}
 }
 ```
@@ -72,6 +74,8 @@ An `All` group applies replacements across the whole array.
 
 Rules are tried with rotations and mirrored rotations, so simple 0D or 1D directional rules can apply in every orientation.
 
+If symmetry operations is set to `Automatic`, only 1D and 0D rules will be symmetrized, the rest will be applied as it is.
+
 ## Basic Rules Examples
 
 Single-cell replacement:
@@ -80,7 +84,7 @@ Single-cell replacement:
 
 ```wolfram
 state = mj`MarkovState[Table[Black, {20}, {20}], {
-  {1, Infinity, {Black -> Red}}
+  {1, Infinity, Automatic, {Black -> Red}}
 }];
 ```
 
@@ -90,10 +94,10 @@ Growth model:
 
 ```wolfram
 state = mj`MarkovState[Table[Black, {20}, {20}], {
-  {1, 1, {
+  {1, 1, Automatic, {
     Black -> Red
   }},
-  {1, Infinity, {
+  {1, Infinity, All, {
     {a___, Black, Red, b___} :> {a, Red, Red, b}
   }}
 }];
@@ -105,10 +109,10 @@ Self-avoiding walk:
 
 ```wolfram
 state = mj`MarkovState[Table[Black, {20}, {20}], {
-  {1, 1, {
+  {1, 1, Automatic, {
     Black -> Red
   }},
-  {1, Infinity, {
+  {1, Infinity, All, {
     {a___, Red,Black,Black, b___} :> {a, White,Gray,Red, b}
   }} 
 }];
@@ -150,13 +154,14 @@ darkGrass = RGBColor[0, 2/3, 0];
 
 riverRules = {
   (* Create two random seed points. *)
-  {1, 1, {empty -> yellow}},
-  {1, 1, {empty -> red}},
+  {1, 1, Automatic, {empty -> yellow}},
+  {1, 1, Automatic, {empty -> red}},
 
   (* Flood both seed regions randomly. *)
   {
     1,
     Infinity,
+    Automatic,
     {
       {a___, red, empty, b___} :> {a, red, red, b},
       {a___, yellow, empty, b___} :> {a, yellow, yellow, b}
@@ -167,6 +172,7 @@ riverRules = {
   {
     All,
     Infinity,
+    Automatic,
     {
       {a___, red, yellow, b___} :> {a, river, river, b}
     }
@@ -176,6 +182,7 @@ riverRules = {
   {
     All,
     Infinity,
+    Automatic,
     {
       {a___, yellow, b___} :> {a, empty, b},
       {a___, red, b___} :> {a, empty, b}
@@ -186,6 +193,7 @@ riverRules = {
   {
     All,
     1,
+    Automatic,
     {
       {a___, river, empty, b___} :> {a, river, river, b}
     }
@@ -195,6 +203,7 @@ riverRules = {
   {
     All,
     Infinity,
+    Automatic,
     {
       {a___, river, empty, b___} :> {a, grass, grass, b}
     }
@@ -202,6 +211,7 @@ riverRules = {
   {
     1,
     13,
+    Automatic,
     {
       {a___, empty, b___} :> {a, darkGrass, b}
     }
@@ -209,6 +219,7 @@ riverRules = {
   {
     1,
     Infinity,
+    Automatic,
     {
       {a___, darkGrass, empty, b___} :> {a, darkGrass, darkGrass, b},
       {a___, grass, empty, b___} :> {a, grass, grass, b}
@@ -221,6 +232,11 @@ initialState[size_: 20] := mj`MarkovState[
   riverRules
 ];
 ```
+
+## Flowers
+
+![](./imgs/ex5.gif)
+
 
 ## Platforms
 

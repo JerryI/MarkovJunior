@@ -12,7 +12,7 @@ Type: Input
 %-------------------------------------------------------------------------%
 .md
 # River generator
-Here is a basic example of MarkovJunior used to procedurally generate rivers.
+This is a basic MarkovJunior example that procedurally generates rivers.
 
 Load the library first:
 
@@ -21,7 +21,7 @@ Display: markdown
 Type: Output
 %-------------------------------------------------------------------------%
 # River generator
-Here is a basic example of MarkovJunior used to procedurally generate rivers.
+This is a basic MarkovJunior example that procedurally generates rivers.
 
 Load the library first:
 
@@ -40,7 +40,7 @@ Type: Input
 %-------------------------------------------------------------------------%
 .md
 :::note
-Change `PacletDirectoryLoad` directory to match your path to a library or install it globally
+Change the `PacletDirectoryLoad` directory to match your library path, or install the library globally.
 :::
 
 %-------------------------------------------------------------------------%
@@ -48,7 +48,7 @@ Display: markdown
 Type: Output
 %-------------------------------------------------------------------------%
 :::note
-Change `PacletDirectoryLoad` directory to match your path to a library or install it globally
+Change the `PacletDirectoryLoad` directory to match your library path, or install the library globally.
 :::
 
 %-------------------------------------------------------------------------%
@@ -57,12 +57,14 @@ Props:
 Type: Input
 %-------------------------------------------------------------------------%
 .md
-Create set of rules following the pattern
+Create a set of rules following this pattern:
 
 ```
 {
-  All | 1,  (* apply rule to all found matches or 1 randomly taken *)
-  _Integer | Infinity, (* max. number of steps for set of rules *)
+  All | 1,  (* apply the rule to all found matches or to 1 randomly chosen match *)
+  _Integer | Infinity, (* maximum number of steps for this rule set *)
+                       (* allowed symmetry operations *)
+  Automatic | All | None | "Mirror" | ...,
   {
     a -> b,  (* rule 1 *)
     c -> d   (* rule 2 *)
@@ -75,12 +77,14 @@ Create set of rules following the pattern
 Display: markdown
 Type: Output
 %-------------------------------------------------------------------------%
-Create set of rules following the pattern
+Create a set of rules following this pattern:
 
 ```
 {
-  All | 1,  (* apply rule to all found matches or 1 randomly taken *)
-  _Integer | Infinity, (* max. number of steps for set of rules *)
+  All | 1,  (* apply the rule to all found matches or to 1 randomly chosen match *)
+  _Integer | Infinity, (* maximum number of steps for this rule set *)
+                       (* allowed symmetry operations *)
+  Automatic | All | None | "Mirror" | ...,
   {
     a -> b,  (* rule 1 *)
     c -> d   (* rule 2 *)
@@ -95,13 +99,13 @@ Props:
 Type: Input
 %-------------------------------------------------------------------------%
 .md
-Here is a set of rules to generate river, and then some grass:
+Here is a set of rules that generates a river, then adds some grass:
 
 %-------------------------------------------------------------------------%
 Display: markdown
 Type: Output
 %-------------------------------------------------------------------------%
-Here is a set of rules to generate river, and then some grass:
+Here is a set of rules that generates a river, then adds some grass:
 
 %-------------------------------------------------------------------------%
 Type: Input
@@ -109,66 +113,66 @@ Type: Input
 rules = {};
 
 AppendTo[rules, { 
-  1, 1, { 
-    (* create 1 random point *)
+  1, 1, Automatic, { 
+    (* create one random seed *)
     (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*) -> (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*)
   }
 }];
 
 AppendTo[rules, {
-  1, 1, { 
-    (* create 1 random point *)
+  1, 1, Automatic, { 
+    (* create one random seed *)
     (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*) -> (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*)
   }
 }];
 
 AppendTo[rules, {
-  1, Infinity, {
-    (* flood using both randomly *)
+  1, Infinity, Automatic, {
+    (* flood outward from both seeds randomly *)
     {a___, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*), b},
     {a___, (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*),(*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*), b}
   }
 }];
 
 AppendTo[rules, {
-  All, Infinity, {
-    (* mark the edge between two *)
+  All, Infinity, Automatic, {
+    (* mark the edge between the two regions *)
     {a___, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*), (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*), b}
   }
 }];
 
 AppendTo[rules, {
-  All, Infinity, {
-    (* erase the rest *)
+  All, Infinity, Automatic, {
+    (* erase the remaining temporary regions *)
     {a___, (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*), b___} :> {a, (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b},
     {a___, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*), b___} :> {a, (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b}
   }
 }];
 
 AppendTo[rules, {
-  All, 1, {
-    (* entend once the edge - river *)
+  All, 1, Automatic, {
+    (* extend the river edge once *)
     {a___, (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*), b}
   }
 }];
 
 AppendTo[rules, {
-  All, Infinity, {
-    (* green grass close to river *)
+  All, Infinity, Automatic, {
+    (* add green grass close to the river *)
     {a___, (*VB[*)(RGBColor[1/3, 1/3, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qCgWDq/YIBgMYfLAHADmIFWo="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*),(*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*), b}
   }
 }];
 
 AppendTo[rules, {
-  1, 13, {
-    (* spread randomly (13) dark grass *)
+  1, 13, Automatic, {
+    (* randomly spread 13 dark grass seeds *)
     {a___, (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*), b}
   }
 }];
 
 AppendTo[rules, {
-  1, Infinity, {
-    (* flood the rest with grass *)
+  1, Infinity, Automatic, {
+    (* flood the remaining cells with grass *)
     {a___, (*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*), b},
     {a___, (*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*),(*VB[*)(RGBColor[0, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACKOODPVwEANd+D0Y="*)(*]VB*), b}
   }
@@ -179,7 +183,7 @@ state = mj`MarkovState[Table[(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUS
 %-------------------------------------------------------------------------%
 Type: Output
 %-------------------------------------------------------------------------%
-(*VB[*)BoxForm`temporalStorage$177254(*,*)(*"1:eJxdktuOmlAYhe0pafoU7VwpTiJKBXeTuRAEFWFQOYmTSWYz7A3IYXMU8D37PsWmV7358q8/62qt9cMlR/xpMBiU33qIXliRwgpRo//+MBgIBGOElDCvUV282aSIyoBkbyosInKV6zQkxT+hV7BCL0PK4l+o0fch9UiNhtTD9BeSu2mkTpXlTTy08GobrcGHYyHzq3fJA/SezWdx3fm2dXHzGWoTQqTSzOTSxYCLZmx28vUK7HdOYuDbItROmX4jXo4NGnr2JrPfVX8bpa2fBNDhbkXYqL3B2BWsB5emlIAe+5OtMlWyZuepoRbJWRGy7S5SWR/6dKmxaq7pgOyxGYRKQ3SWWK2YpkATeCTKjkkuwdZN5F3dcWJ3DjKahnXtn7yxgbZztGf4mpz4ABCGyaSG3mBQFfG2KzPHdPI5M5EYM9ZmNXfoUrXdRGIs6Dwzl8ZMBabxepU1vC3owm2ODRmYSwZIGrdBZCWXwmUaH0CfkfA8EZmW60Ncy9cFP1tcNtpZUAXoYh82SjUuO/UZN2t6BegJbBXTdX5KzcLnlaXVInzEVylfPj093Pt4tXhq9Io/3tv+3ONYx0j/ej8Q9LQ07v5+jaJG/3nu09BRjN4r6Mao/NJLCcYl+gMLUrW5"*)(*]VB*)
+(*VB[*)BoxForm`temporalStorage$156271(*,*)(*"1:eJxdUtuOmlAAtLek6Ve0+6TQRGAFpMk+gII3EARBcLPJcjkIHOCI3PnL/lG16VNfJjOTeZhk5oeH9PDTaDQqv91BDOIK3awYtMbvD6PRAoUhAHJc1KC+vZ/QDZYRur4r7g2iZlvnMbr9E0blVuB1jFnCKzb5PsZ+YpMx9kT+AtueTCpSbgfe7NxGPXZHQZqv8oU3O7lJlTNcBWWnWBqFgmeD87yC8RG6+oDj3J5MJE4MjC6da3v13mOq0PIpEPbDVCPKs7XeGkDhlXwdwSxizo48FIPfZzCzQoIx+ULe9wtUnOryXLnZimLzTiyy63Jx3ajQLErvAi8qU67Pc9t3CAb5eOPIIstJYKYqG31gVMjyuw1Iku1uE1j4Fnayft3RoFGD5+t+lkj01F8xkb9aU4l9hvbyEHAEhZvLXZ9GelzYIWcHhsm6JMtYNLUhIhEZB4XeUZWmoktT1Qex7Q+ncAiInPSFsHfocl9clIwQbCrYWviCtVsvSBRKvzT81Sn5WSvQm64NDyzUpgvPK9Vhac+FdDmt1iSKepFSBV9D/LGlfTMPS00a+JeXp8cWb5aATd7Cj4+lP99Br1NgfH0Q4AZqnvZ/3eOtBv9lHrcwQAr8yvVSUH65S8lNS/AHYyWzeQ=="*)(*]VB*)
 
 %-------------------------------------------------------------------------%
 Props:
@@ -187,13 +191,13 @@ Props:
 Type: Input
 %-------------------------------------------------------------------------%
 .md
-Now evaluate the state infinitely and watch the result live:
+Now evaluate the state indefinitely and watch the result live:
 
 %-------------------------------------------------------------------------%
 Display: markdown
 Type: Output
 %-------------------------------------------------------------------------%
-Now evaluate the state infinitely and watch the result live:
+Now evaluate the state indefinitely and watch the result live:
 
 %-------------------------------------------------------------------------%
 Type: Input
@@ -206,13 +210,13 @@ Props:
 Type: Input
 %-------------------------------------------------------------------------%
 .md
-To export the animation use `Image` wrapper:
+To export the animation, use an `Image` wrapper:
 
 %-------------------------------------------------------------------------%
 Display: markdown
 Type: Output
 %-------------------------------------------------------------------------%
-To export the animation use `Image` wrapper:
+To export the animation, use an `Image` wrapper:
 
 %-------------------------------------------------------------------------%
 Type: Input
@@ -230,7 +234,7 @@ Export["ex.gif", AnimatedImage[%, FrameRate->25]]
 
 
 %--------------------------------%Objects%--------------------------------%
-Key: bf941e76-527f-4675-962d-24bfe562736f
+Key: 87b8f362-f5e9-4f40-a3a3-a892c2e06a93
 %-------------------------------------------------------------------------%
 <|"Public" -> Hold[Graphics[Raster[{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}, {{0, 0}, {20, 20}}, {0, 1}], Frame -> Automatic, FrameLabel -> {None, None}, FrameTicks -> {{None, None}, {None, None}}, GridLinesStyle -> Directive[GrayLevel[0.5, 0.4]], ImageSize -> 40, Method -> {"GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, "DefaultGraphicsInteraction" -> {"Version" -> 1.2, "TrackMousePosition" -> {True, False}, "Effects" -> {"Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2}, "Droplines" -> {"freeformCursorMode" -> True, "placement" -> {"x" -> "All", "y" -> "None"}}}}, "DefaultPlotStyle" -> Automatic}]]|>
 

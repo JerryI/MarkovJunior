@@ -1,0 +1,343 @@
+%-------------------------------%Notebook%--------------------------------%
+HaveToSaveAs: false
+ObjectFields:
+  - Objects
+  - Symbols
+%-------------------------------------------------------------------------%
+
+
+%---------------------------------%Cells%---------------------------------%
+Props:
+  Hidden: true
+Type: Input
+%-------------------------------------------------------------------------%
+.md
+# Flower generator
+Here is a basic example of MarkovJunior used to procedurally grow flowers.
+
+Load the library first:
+
+%-------------------------------------------------------------------------%
+Display: markdown
+Type: Output
+%-------------------------------------------------------------------------%
+# Flower generator
+Here is a basic example of MarkovJunior used to procedurally grow flowers.
+
+Load the library first:
+
+%-------------------------------------------------------------------------%
+Type: Input
+%-------------------------------------------------------------------------%
+PacletDirectoryLoad[
+  NotebookDirectory[]//ParentDirectory
+];
+Needs["CoffeeLiqueur`Workshop`MarkovJunior`"->"mj`"];
+
+%-------------------------------------------------------------------------%
+Props:
+  Hidden: true
+Type: Input
+%-------------------------------------------------------------------------%
+.md
+:::note
+Change `PacletDirectoryLoad` directory to match your path to a library or install it globally
+:::
+
+%-------------------------------------------------------------------------%
+Display: markdown
+Type: Output
+%-------------------------------------------------------------------------%
+:::note
+Change `PacletDirectoryLoad` directory to match your path to a library or install it globally
+:::
+
+%-------------------------------------------------------------------------%
+Props:
+  Hidden: true
+Type: Input
+%-------------------------------------------------------------------------%
+.md
+Create a set of rules following the pattern
+
+```
+{
+  All | 1,  (* apply rule to all found matches or 1 randomly taken *)
+  _Integer | Infinity, (* max. number of steps for set of rules *)
+                       (* symmetry operations allowed *)
+  Automatic | All | None | "Mirror" | ...,
+  {
+    a -> b,  (* rule 1 *)
+    c -> d   (* rule 2 *)
+    ...
+  }
+}
+```
+
+%-------------------------------------------------------------------------%
+Display: markdown
+Type: Output
+%-------------------------------------------------------------------------%
+Create a set of rules following the pattern
+
+```
+{
+  All | 1,  (* apply rule to all found matches or 1 randomly taken *)
+  _Integer | Infinity, (* max. number of steps for set of rules *)
+                       (* symmetry operations allowed *)
+  Automatic | All | None | "Mirror" | ...,
+  {
+    a -> b,  (* rule 1 *)
+    c -> d   (* rule 2 *)
+    ...
+  }
+}
+```
+
+%-------------------------------------------------------------------------%
+Props:
+  Hidden: true
+Type: Input
+%-------------------------------------------------------------------------%
+.md
+Here is a set of rules that first divides the world into sky and soil, then grows stems, leaves, and blossoms:
+
+%-------------------------------------------------------------------------%
+Display: markdown
+Type: Output
+%-------------------------------------------------------------------------%
+Here is a set of rules that first divides the world into sky and soil, then grows stems, leaves, and blossoms:
+
+%-------------------------------------------------------------------------%
+Type: Input
+%-------------------------------------------------------------------------%
+rules = {};
+
+AppendTo[rules, { 
+  1, 1, Automatic, { 
+    (* seed the soil region *)
+    (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*) -> (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*)
+  }
+}];
+
+AppendTo[rules, {
+  1, 3, Automatic, { 
+    (* seed several sky regions *)
+    (*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*) -> (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*)
+  }
+}];
+
+AppendTo[rules, {
+  1, Infinity, Automatic, {
+    (* grow the sky and soil regions from their seeds *)
+    {a___, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*), b},
+    {a___, (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*),(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*),(*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*), b}
+  }
+}];
+
+AppendTo[rules, {
+  All, Infinity, Automatic, {
+    (* convert temporary region colors into sky and soil *)
+    {a___, (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b},
+    {a___, (*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*), b___} :> {a, (*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*), b}
+  }
+}];
+
+AppendTo[rules, {
+  1, Infinity, All, {
+    (* plant the first stem segment along the soil line *)
+    {
+      bf___,
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*),(*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*),(*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a1   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*),(*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*),(*VB[*)(RGBColor[0.6, 0.4, 0.2])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qMgaDx/ZFs2aCwE0Y46Q9AFKyGbk="*)(*]VB*), b3   },
+      af
+    } /; Length[{a1}]==Length[{a2}]==Length[{a3}]  
+  }
+}];
+
+AppendTo[rules, {
+  1, Infinity, "MirrorX", {
+    (* grow stems and leaves with mirrored variants *)
+
+    {
+      bf___,
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a1   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3   },
+      af
+    } /; Length[{a1}]==Length[{a2}]==Length[{a3}],
+
+    {
+      bf___,
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a1   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*), b3   },
+      af
+    } /; Length[{a1}]==Length[{a2}]==Length[{a3}],    
+    
+    {
+      bf___,
+      {a0___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b0___},
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a0   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b0   },
+      {a1   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3   },
+      af
+    } /; Length[{a1}]==Length[{a2}]==Length[{a3}]==Length[{a0}],
+    
+    {
+      bf___,
+      {a0___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b0___},
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a0   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b0   },
+      {a1   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3   },
+      af
+    } /; RandomReal[]<0.5 && Length[{a0}]==Length[{a1}]==Length[{a2}]==Length[{a3}],
+
+    {
+      bf___,
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a1   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3   },
+      af
+    } /; RandomReal[]<0.2 && Length[{a1}]==Length[{a2}]==Length[{a3}]
+  }
+}];
+
+AppendTo[rules, {
+  All, Infinity, All, {
+    (* turn mature stems into blossoms *)
+    {
+      bf___,
+      {a0___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b0___},
+      {a1___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b1___},
+      {a2___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2___},
+      {a3___, (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3___},
+      af___
+    } :> {
+      bf,
+      {a0   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b0   },
+      {a1   , (*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[1, 1, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/boDAYGAO7rEHU="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*), b1   },
+      {a2   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[1, 0, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYgCDD/ZQBgMDnAEA4iUPRg=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b2   },
+      {a3   , (*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*),(*VB[*)(RGBColor[0, 2/3, 0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoCColAweGoPFwEA8+gROQ=="*)(*]VB*),(*VB[*)(RGBColor[0.87, 0.94, 1])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qur64wJbr+mv7IpF17g+rRN7ZFzGAwQd7AFynFx0="*)(*]VB*), b3   },
+      af
+    } /; Length[{a0}]==Length[{a1}]==Length[{a2}]==Length[{a3}]  
+  }
+}];
+
+state = mj`MarkovState[Table[(*VB[*)(GrayLevel[0])(*,*)(*"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw=="*)(*]VB*), {30}, {30}], rules]
+
+%-------------------------------------------------------------------------%
+Type: Output
+%-------------------------------------------------------------------------%
+(*VB[*)BoxForm`temporalStorage$851250(*,*)(*"1:eJxdUtuOmlAAtLek6Ve0+6SwCSiIbpM+cJFlEUQERd1ssoAHlduBwznc/rH/VG361JfJzGQyLzM/AriJPg0Gg+rbDRanK4ZodwWN8/vDYCDDKALAuJYEEPTuQZRUF1i8mz5KYK2T/ArRP+FgH4PXIbWTXqnR9yH1SI2G1MP4J9C7cYzHRtOL29avLbd1JXX+nMsB7yGZ29Lx8Xill2e2jNdFla0krCe6lYdMTtzTto0kbV9N91LfIzavmZW/85peFvV+Zm02ZZPltkna6Rb6mHiK2QHOTyHkgsbCZtApzqXMmgBlwfp4wfNpuNOh7rHEd3mVTYtQZsV9nwikqm1BbLvuYohNc5SfLbO8JqK6EuLYOiTwRWASx+hWJFDBNDK5wkVPkqEIDH6S5+H6IpJOQN5Zywo8x1of68vgtKSZDs0SXp8gbpK77R52C3tjq9MlPbYAXxFshVpjONtDfORyzjaibjsLcSZ6iiDVuZ+WjKQKtBKEm6wzVV6daS+ngyTcGm/tgsJcTvVE250PtDg5014+Y8WxEmiLQmMlY2ESw53aYgv5Xw/3Hd52EjV6iz7eV/58gw1JgfP1ToB/svK0++u6iID/MvdLOCAFIfaDFFRfblL10wr8AWHdswU="*)(*]VB*)
+
+%-------------------------------------------------------------------------%
+Props:
+  Hidden: true
+Type: Input
+%-------------------------------------------------------------------------%
+.md
+Now evaluate the state infinitely and watch the flowers grow live:
+
+%-------------------------------------------------------------------------%
+Display: markdown
+Type: Output
+%-------------------------------------------------------------------------%
+Now evaluate the state infinitely and watch the flowers grow live:
+
+%-------------------------------------------------------------------------%
+Type: Input
+%-------------------------------------------------------------------------%
+Refresh[(state=mj`Propagate[state])//mj`GetArray//ArrayPlot, 1/60.0]
+
+%-------------------------------------------------------------------------%
+Props:
+  Hidden: true
+Type: Input
+%-------------------------------------------------------------------------%
+.md
+Export
+
+%-------------------------------------------------------------------------%
+Display: markdown
+Type: Output
+%-------------------------------------------------------------------------%
+Export
+
+%-------------------------------------------------------------------------%
+Type: Input
+%-------------------------------------------------------------------------%
+Table[ImageResize[
+  Image[(
+    state=mj`Propagate[state];
+    state=mj`Propagate[state];
+    state=mj`Propagate[state];
+    state=mj`Propagate[state]
+  )//mj`GetArray], {350,350}, Method->"NearestNeighbor"], {350}];
+Export["ex5.gif", AnimatedImage[%, FrameRate->25]]
+
+%-------------------------------------------------------------------------%
+Type: Output
+%-------------------------------------------------------------------------%
+"ex5.gif"
+
+%------------------------------%EndOfCells%-------------------------------%
+
+
+
+%--------------------------------%Objects%--------------------------------%
+Key: 429789ea-f4cf-4ae7-a191-fed4b3393dcc
+%-------------------------------------------------------------------------%
+<|"Public" -> Hold[Graphics[Raster[{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}, {{0, 0}, {30, 30}}, {0, 1}], Frame -> Automatic, FrameLabel -> {None, None}, FrameTicks -> {{None, None}, {None, None}}, GridLinesStyle -> Directive[GrayLevel[0.5, 0.4]], ImageSize -> 40, Method -> {"GridLinesInFront" -> True, "DefaultBoundaryStyle" -> Automatic, "DefaultGraphicsInteraction" -> {"Version" -> 1.2, "TrackMousePosition" -> {True, False}, "Effects" -> {"Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2}, "Droplines" -> {"freeformCursorMode" -> True, "placement" -> {"x" -> "All", "y" -> "None"}}}}, "DefaultPlotStyle" -> Automatic}]]|>
+
+%-----------------------------%EndOfObjects%------------------------------%
+
+
+
+%--------------------------------%Symbols%--------------------------------%
+%-----------------------------%EndOfSymbols%------------------------------%
+
+
+
+
+
+%-----------------------------%EndOfNotebook%-----------------------------%

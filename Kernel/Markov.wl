@@ -44,7 +44,7 @@ MarkovState[field_, rules_] := Which[
     Message[MarkovState::wfield];
     $Failed,
   
-  !MatchQ[rules, {{1|All, _Integer|Infinity, Rule | RuleDelayed | {__Rule | __RuleDelayed}}..}],
+  !MatchQ[rules, {{1|All, _Integer|Infinity, None|All|Automatic|"Rotation"|"Mirror"|"MirrorX"|"MirrorY", Rule | RuleDelayed | {__Rule | __RuleDelayed}}..}],
     Message[MarkovState::malrl];
     $Failed,
   
@@ -92,8 +92,8 @@ applyRules[input_, state_, _] := With[{
   1,
     Module[{variants},
       variants = Join@@MapThread[
-        Map[#2, ReplaceList[rl[[3]] ][#1[input]] ] &,
-        ops
+        Map[#2, ReplaceList[rl[[4]] ][#1[input] ] ] &,
+        selectSymmetries[rl[[3]], "O"]
       ];
       
       If[Length[variants]==0, Return[{
@@ -112,9 +112,9 @@ applyRules[input_, state_, _] := With[{
 
   All, Module[{},
     With[{transformed = Fold[
-      #2[[2]][ReplaceAll[#2[[1]][#1], rl[[3]]]] &,
+      #2[[2]][ReplaceAll[#2[[1]][#1], rl[[4]]]] &,
       input,
-      tops
+      selectSymmetries[rl[[3]], "T"]
     ]},
     
       If[transformed === input, Return[{
@@ -141,6 +141,7 @@ rot[2][m_] := Reverse[Reverse /@ m];
 rot[3][m_] := Reverse[Transpose[m]];
 
 mirror[m_] := Reverse /@ m;  (* left-right mirror *)
+mirrorY[m_] := Reverse @ m;  (* top-bottom mirror *)
 
 symmetries = Join[
    Table[rot[k], {k, 0, 3}],
@@ -154,6 +155,23 @@ inverseSymmetries = Join[
 
 ops = {symmetries, inverseSymmetries};
 tops = Transpose[ops];
+
+selectSymmetries[All, "O"] = ops;
+selectSymmetries[All, "T"] = tops;
+selectSymmetries[None, "O"] = {{Identity}, {Identity}};
+selectSymmetries[None, "T"] = {{Identity, Identity}};
+
+selectSymmetries["MirrorX", "O"] = {{mirror}, {mirror}};
+selectSymmetries["MirrorX", "T"] = {{mirror, mirror}};
+
+selectSymmetries["MirrorY", "O"] = {{mirrorY}, {mirrorY}};
+selectSymmetries["MirrorY", "T"] = {{mirrorY, mirrorY}};
+
+selectSymmetries["Mirror", "O"] = {{mirror, mirrorY}, {mirror, mirrorY}};
+selectSymmetries["Mirror", "T"] = {{mirror, mirrorY, mirror, mirrorY}};
+
+selectSymmetries["Rotation", "O"] = {Table[rot[k], {k, 0, 3}], Table[rot[Mod[-k, 4]], {k, 0, 3}]}
+selectSymmetries["Rotation", "T"] = selectSymmetries["Rotation", "O"] // Transpose;
 
 (* Rules transformation to compensate for the absence of ReplaceAllList feature *)
 (* this one checks is this is 0D or 1D rule and levels it up to 2D *)
@@ -172,9 +190,31 @@ levelUp[2][expr_] := Module[{lr, rl, af, bf}, expr /. {
   RuleDelayed[a_, b_] :> RuleDelayed[{lr___, {af___, a, bf___}, rl___}, {lr, {af, b, bf}, rl}]
 }]
 
-correctRules[rl : {All, _, _}] := rl;
-correctRules[rl : {1  , n_, rule_Rule}] := {1, n, levelUp@rule}
-correctRules[rl : {1  , n_, rules_List}] := {1, n, levelUp/@rules}
+correctRules[rl : {All, n_, Automatic, rule_Rule | rule_RuleDelayed}] := If[!MatchQ[rule[[1]], {___, List[__], ___}] && MatchQ[rule[[1]], {___, expr_, ___}],
+  {All, n, All, rule},
+  {All, n, None, rule}
+]
+
+correctRules[rl : {All, n_, Automatic, rules_List}] := If[Or @@ Map[(!MatchQ[#[[1]], {___, List[__], ___}] && MatchQ[#[[1]], {___, expr_, ___}])&, rules],
+  {All, n, All, rules},
+  {All, n, None, rules}
+]
+
+correctRules[rl : {All, n_, s_, rules_}] := rl;
+
+
+correctRules[rl : {1  , n_, Automatic, rule_Rule | rule_RuleDelayed}] := If[!MatchQ[rule[[1]], {___, List[__], ___}] && MatchQ[rule[[1]], {___, expr_, ___}],
+  {1, n, All, levelUp@rule},
+  {1, n, None, levelUp@rule}
+]
+
+correctRules[rl : {1  , n_, Automatic, rules_List}] := If[Or @@ Map[(!MatchQ[#[[1]], {___, List[__], ___}] && MatchQ[#[[1]], {___, expr_, ___}])&, rules],
+  {1, n, All, levelUp/@rules},
+  {1, n, None, levelUp/@rules}
+]
+
+correctRules[rl : {1  , n_, s_, rule_Rule | rule_RuleDelayed}] := {1, n, s, levelUp@rule}
+correctRules[rl : {1  , n_, s_, rules_List}] := {1, n, s, levelUp/@rules}
 
 levelUp[testRl_Rule | testRl_RuleDelayed] := Which[
   MatchQ[testRl[[1]], {___, List[__], ___}], 
