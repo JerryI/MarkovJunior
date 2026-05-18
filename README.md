@@ -242,6 +242,36 @@ initialState[size_: 20] := mj`MarkovState[
 
 ## Platforms
 
+
+## WLJS Notebook
+
+> See `Examples/Example.wln`
+
+For [WLJS Notebook](https://wljs.io) in
+`Examples/`, load the package from the parent directory:
+
+```wolfram
+PacletDirectoryLoad[NotebookDirectory[] // ParentDirectory];
+Needs["CoffeeLiqueur`Workshop`MarkovJunior`" -> "mj`"];
+```
+
+After evaluating the river-generator definitions above:
+
+```wolfram
+state = initialState[20];
+
+Refresh[
+  state = mj`Propagate[state];
+  ArrayPlot[mj`GetArray[state]],
+  1/30.0
+]
+```
+
+The two-argument `Refresh[expr, seconds]` form is specific to WLJS. In
+Mathematica notebooks, use the `Dynamic[Refresh[..., UpdateInterval -> ...]]`
+form shown above.
+
+
 ### Wolframscript
 
 > See `Examples/Example.wls`
@@ -285,32 +315,4 @@ DynamicModule[{state = initialState[40]},
 
 `TrackedSymbols :> {}` is useful here because the display should refresh on a
 timer, not only when a notebook symbol changes.
-
-## WLJS Notebook
-
-> See `Examples/Example.wln`
-
-WLJS Notebook has a different `Refresh` implementation. From a notebook in
-`Examples/`, load the package from the parent directory:
-
-```wolfram
-PacletDirectoryLoad[NotebookDirectory[] // ParentDirectory];
-Needs["CoffeeLiqueur`Workshop`MarkovJunior`" -> "mj`"];
-```
-
-After evaluating the river-generator definitions above:
-
-```wolfram
-state = initialState[20];
-
-Refresh[
-  state = mj`Propagate[state];
-  ArrayPlot[mj`GetArray[state]],
-  1/30.0
-]
-```
-
-The two-argument `Refresh[expr, seconds]` form is specific to WLJS. In
-Mathematica notebooks, use the `Dynamic[Refresh[..., UpdateInterval -> ...]]`
-form shown above.
 
