@@ -2,7 +2,7 @@
 
 A small MarkovJunior-style rewrite engine in vanilla (almost) Wolfram Language.
 
-> WL is generally based around pattern macthing idea, therfore MarkovJunior is implemented naturally using native `ReplaceAll`, `Rule` and `Pattern` symbols. Most of the code is used for building friendly API and error checks
+> Wolfram Language is generally built around pattern matching; therefore, MarkovJunior can be implemented naturally using native `ReplaceAll`, `Rule`, and `Pattern` symbols. Most of the code is used for building a friendly API and performing error checks.
 
 ![](./imgs/img.png)
 
